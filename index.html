@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ThriveRecovery — You already know why you want to stop.</title>
+<meta name="description" content="Quit porn, alcohol, cannabis, vaping, gambling, or caffeine with a real program: day-by-day recovery science, an AI coach available at 2am, and a plan that survives relapse. iOS.">
+<link rel="canonical" href="https://thriverecoveryapp.com/">
+<meta property="og:title" content="ThriveRecovery — You already know why you want to stop.">
+<meta property="og:description" content="Six addictions. One plan. Day-by-day recovery science, a 24/7 coach, and a program that survives relapse.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thriverecoveryapp.com/">
+<meta property="og:image" content="https://thriverecoveryapp.com/assets/shots/01-today-dashboard.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   THRIVE RECOVERY — "The Quiet Hours"
+   A dark room with a sunrise in it. The dawn gradient rises as you
+   scroll; day 1 is dark, day 90 is morning. One easing, four beats.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --night:#0D0B09; --night-2:#151210; --night-3:#1E1A16;
+  --dawn-ember:#7A2E12; --dawn-amber:#C4761F; --dawn-gold:#E8B45A; --dawn-pale:#F4DFB4;
+  --text:#EDE6DC; --text-2:#B5AA9B; --text-3:#877C6E;
+  --line:rgba(237,230,220,.12);
+  --serif:'Source Serif 4', Georgia, serif;
+  --sans:'Inter', -apple-system, system-ui, sans-serif;
+  --ease:cubic-bezier(.22,.9,.24,1);
+  --t-fast:.35s; --t-med:.6s; --t-slow:1s; --t-epic:1.6s;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--text);
+  font-family:var(--sans); font-size:16.5px; line-height:1.65;
+  overflow-x:hidden;
+}
+::selection{background:var(--dawn-amber);color:var(--night)}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4.5vw,64px)}
+.serif{font-family:var(--serif)}
+
+/* film grain — the anti-generic layer */
+body::after{
+  content:''; position:fixed; inset:-50%; z-index:99; pointer-events:none; opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  animation:grain 9s steps(10) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-3%,2%)}30%{transform:translate(2%,-3%)}
+  50%{transform:translate(-2%,3%)}70%{transform:translate(3%,1%)}90%{transform:translate(-1%,-2%)}
+}
+
+/* ── the rising dawn (fixed, scroll-driven) ─────────────────────── */
+#dawn{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120% 60% at 50% calc(118% - var(--rise,0%)),
+      var(--dawn-pale) 0%, var(--dawn-gold) 18%, var(--dawn-amber) 36%,
+      var(--dawn-ember) 55%, transparent 76%);
+  opacity:calc(.35 + var(--risen,0)*.5);
+  transition:opacity var(--t-slow) var(--ease);
+}
+main{position:relative;z-index:1}
+
+/* ── type scale ─────────────────────────────────────────────────── */
+h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.015em;line-height:1.12;text-wrap:balance}
+h1{font-size:clamp(2.3rem,5.4vw,4.1rem)}
+h2{font-size:clamp(1.7rem,3.4vw,2.6rem)}
+.kicker{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dawn-gold);
+  display:flex;align-items:center;gap:12px;margin-bottom:22px;font-weight:600;
+}
+.kicker::before{content:'';width:0;height:1px;background:var(--dawn-gold);transition:width var(--t-slow) var(--ease) .15s}
+.kicker.in::before{width:30px}
+.lede{color:var(--text-2);font-size:clamp(1.02rem,1.35vw,1.18rem);max-width:56ch}
+
+/* reveals — everything rises like light */
+.rv{opacity:0;transform:translateY(26px);transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.1s}.rv[data-d="2"]{transition-delay:.2s}.rv[data-d="3"]{transition-delay:.32s}
+
+/* word-rise for the hero */
+.kin .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.kin .w>span{display:inline-block;transform:translateY(112%);transition:transform .9s var(--ease)}
+.kin.in .w>span{transform:none}
+
+/* ── nav ────────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px clamp(20px,4.5vw,64px);
+  background:linear-gradient(rgba(13,11,9,.85),rgba(13,11,9,0));
+  transition:transform var(--t-med) var(--ease);
+}
+nav.hid{transform:translateY(-110%)}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.15rem;text-decoration:none}
+.brand em{font-style:normal;color:var(--dawn-gold)}
+.nav-cta{
+  font-size:.85rem;font-weight:600;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  transition:border-color var(--t-fast) var(--ease),background var(--t-fast) var(--ease),color var(--t-fast) var(--ease);
+}
+.nav-cta:hover{background:var(--dawn-gold);border-color:var(--dawn-gold);color:var(--night)}
+
+/* ── hero: the horizon ──────────────────────────────────────────── */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:110px 0 80px}
+.hero .horizon{
+  position:absolute;left:0;right:0;bottom:22%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--dawn-gold) 30%,var(--dawn-pale) 50%,var(--dawn-gold) 70%,transparent);
+  filter:blur(.4px); opacity:.85;
+  animation:breathe 6s ease-in-out infinite;
+}
+.hero .horizon::after{
+  content:'';position:absolute;left:20%;right:20%;top:-26px;height:52px;
+  background:radial-gradient(50% 100% at 50% 100%,rgba(232,180,90,.28),transparent 70%);
+}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:.95}}
+.hero h1{max-width:15ch;margin-bottom:26px}
+.hero h1 .soft{color:var(--text-2);font-style:italic;font-weight:400}
+.hero .lede{margin-bottom:38px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:.95rem;
+  padding:14px 26px;border-radius:999px;position:relative;overflow:hidden;isolation:isolate;
+  transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease);
+}
+.btn-dawn{background:linear-gradient(135deg,var(--dawn-gold),var(--dawn-amber));color:var(--night)}
+.btn-dawn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(196,118,31,.35)}
+.btn-ghost{border:1px solid var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--dawn-gold);color:var(--dawn-gold)}
+.hero .whisper{margin-top:44px;color:var(--text-3);font-size:.85rem}
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--text-3);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.scroll-cue::after{content:'';display:block;width:1px;height:26px;background:var(--text-3);margin:8px auto 0;transform-origin:top;animation:drop 2.2s var(--ease) infinite}
+@keyframes drop{0%{transform:scaleY(0)}55%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── sections ───────────────────────────────────────────────────── */
+section{padding:clamp(72px,10vw,130px) 0;position:relative}
+.sec-line{border-top:1px solid var(--line)}
+
+/* ── THE SCRUBBER — what actually changes ───────────────────────── */
+.scrub-stage{
+  border:1px solid var(--line);border-radius:24px;overflow:hidden;position:relative;
+  background:linear-gradient(180deg,var(--night-2),var(--night));
+  padding:clamp(28px,4.5vw,56px);
+  cursor:grab; user-select:none; touch-action:pan-y;
+}
+.scrub-stage.dragging{cursor:grabbing}
+.scrub-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 70% at 50% calc(112% - var(--p,0)*55%),
+    rgba(244,223,180,calc(.05 + var(--p,0)*.16)),
+    rgba(196,118,31,calc(.04 + var(--p,0)*.12)) 40%, transparent 72%);
+  transition:background .2s linear;
+}
+.dep-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:34px;position:relative;z-index:2}
+.dep-tabs button{
+  font-size:.82rem;font-weight:600;padding:8px 16px;border-radius:999px;
+  border:1px solid var(--line);color:var(--text-2);
+  transition:all var(--t-fast) var(--ease);
+}
+.dep-tabs button:hover{color:var(--text);border-color:var(--text-3)}
+.dep-tabs button[aria-selected="true"]{background:var(--dawn-gold);border-color:var(--dawn-gold);color:var(--night)}
+.scrub-day{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;position:relative;z-index:2}
+.scrub-day .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(4.4rem,11vw,8.5rem);line-height:.9;
+  color:var(--dawn-pale); font-variant-numeric:tabular-nums;
+  text-shadow:0 0 60px rgba(232,180,90,.25);
+}
+.scrub-day .unit{color:var(--text-2);font-size:1rem}
+.scrub-copy{min-height:150px;margin-top:26px;max-width:62ch;position:relative;z-index:2}
+.scrub-copy .sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2vw,1.55rem);color:var(--dawn-gold);margin-bottom:10px;transition:opacity var(--t-fast) var(--ease)}
+.scrub-copy .body{color:var(--text-2);transition:opacity var(--t-fast) var(--ease)}
+.scrub-copy.swap .sub,.scrub-copy.swap .body{opacity:0}
+.scrub-track{margin-top:38px;position:relative;z-index:2}
+.scrub-track input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:ew-resize;
+}
+.scrub-track input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--dawn-ember),var(--dawn-gold));border-radius:2px}
+.scrub-track input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:26px;height:26px;border-radius:50%;margin-top:-12px;
+  background:var(--dawn-pale);border:3px solid var(--night);
+  box-shadow:0 0 0 1.5px var(--dawn-gold),0 0 24px rgba(232,180,90,.5);
+}
+.scrub-track input[type=range]::-moz-range-track{height:2px;background:linear-gradient(90deg,var(--dawn-ember),var(--dawn-gold));border-radius:2px}
+.scrub-track input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--dawn-pale);border:3px solid var(--night);box-shadow:0 0 0 1.5px var(--dawn-gold),0 0 24px rgba(232,180,90,.5)}
+.scrub-marks{display:flex;justify-content:space-between;color:var(--text-3);font-size:.75rem;margin-top:6px}
+.scrub-hint{color:var(--text-3);font-size:.8rem;margin-top:18px;text-align:center}
+
+/* ── app walkthrough: sticky plate ──────────────────────────────── */
+.walk{display:grid;gap:clamp(28px,4vw,64px)}
+@media(min-width:980px){.walk{grid-template-columns:1fr 1fr;align-items:start}}
+.walk-plate-col{display:none}
+@media(min-width:980px){
+  .walk-plate-col{display:block}
+  .walk-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center}
+}
+.walk-stage{position:relative;width:min(420px,100%)}
+.walk-slide{position:absolute;inset:0;opacity:0;transform:scale(.97);transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease)}
+.walk-slide.on{opacity:1;transform:none;position:relative}
+.plate{
+  border-radius:26px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(232,180,90,.06);
+  position:relative;
+}
+.plate::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(244,223,180,.07) 50%,transparent 60%);
+}
+.walk-step{min-height:58vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0;opacity:.4;transition:opacity var(--t-med) var(--ease)}
+.walk-step.on{opacity:1}
+.walk-step .n{font-family:var(--serif);font-size:.95rem;color:var(--dawn-gold);margin-bottom:10px}
+.walk-step h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.35rem,2.2vw,1.8rem);margin-bottom:12px}
+.walk-step p{color:var(--text-2);max-width:46ch}
+.walk-step .m-plate{margin-top:22px}
+@media(min-width:980px){.walk-step .m-plate{display:none}}
+
+/* ── six addictions ─────────────────────────────────────────────── */
+.six-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-top:44px}
+.six-card{
+  border:1px solid var(--line);border-radius:18px;padding:26px 20px;text-align:center;
+  transition:transform var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease),background var(--t-fast) var(--ease);
+}
+.six-card:hover{transform:translateY(-4px);border-color:var(--dawn-amber);background:var(--night-2)}
+.six-card .g{font-size:1.6rem;display:block;margin-bottom:10px}
+.six-card b{display:block;font-size:.95rem;margin-bottom:4px}
+.six-card span{color:var(--text-3);font-size:.78rem}
+
+/* ── honest section ─────────────────────────────────────────────── */
+.honest{max-width:760px}
+.honest p{color:var(--text-2);margin-top:18px;font-size:1.05rem}
+.honest p strong{color:var(--text);font-weight:600}
+.honest .pull{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,2.2vw,1.7rem);
+  color:var(--dawn-pale);border-left:2px solid var(--dawn-gold);padding-left:22px;margin-top:30px;line-height:1.4;
+}
+
+/* ── faq ────────────────────────────────────────────────────────── */
+.faq{max-width:820px}
+.faq details{border-top:1px solid var(--line);padding:22px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{
+  font-weight:600;font-size:1.02rem;cursor:pointer;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:var(--serif);font-size:1.4rem;color:var(--dawn-gold);transition:transform var(--t-fast) var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--text-2);margin-top:12px;max-width:60ch}
+
+/* ── final cta: full dawn ───────────────────────────────────────── */
+.final{min-height:78svh;display:flex;align-items:center;text-align:center;position:relative;overflow:hidden}
+.final .glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(110% 85% at 50% 118%,var(--dawn-pale) 0%,var(--dawn-gold) 22%,var(--dawn-amber) 42%,var(--dawn-ember) 62%,transparent 82%);
+  opacity:.9;
+}
+.final .wrap{position:relative;z-index:2;width:100%}
+.final h2{font-size:clamp(2rem,4.6vw,3.4rem);max-width:18ch;margin:0 auto 20px}
+.final .lede{margin:0 auto 36px}
+.final .store-note{margin-top:26px;color:var(--text-3);font-size:.82rem}
+
+/* app store badge */
+.store-badge{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px 22px;text-decoration:none;transition:border-color var(--t-fast) var(--ease),background var(--t-fast) var(--ease)}
+.store-badge:hover{background:var(--night-2);border-color:var(--dawn-gold)}
+.store-badge svg{width:26px;height:26px}
+.store-badge .sb-t{text-align:left;line-height:1.15}
+.store-badge .sb-t small{display:block;font-size:.68rem;color:var(--text-3)}
+.store-badge .sb-t b{font-size:1rem}
+
+footer{border-top:1px solid var(--line);padding:40px 0 60px;position:relative;z-index:2}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--text-3);font-size:.82rem}
+footer a{color:var(--text-2);text-decoration:none}
+footer a:hover{color:var(--dawn-gold)}
+footer .cols{display:flex;gap:26px;flex-wrap:wrap}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv,.kin .w>span{opacity:1;transform:none}
+  body::after{display:none}
+}
+</style>
+</head>
+<body>
+<div id="dawn" aria-hidden="true"></div>
+
+<nav id="nav" aria-label="Main">
+  <a class="brand" href="#top">Thrive<em>Recovery</em></a>
+  <a class="nav-cta" href="https://apps.apple.com/us/app/id6759509007">Get the app</a>
+</nav>
+
+<main id="top">
+
+<!-- ════════ HERO: THE HORIZON ════════ -->
+<header class="hero">
+  <div class="horizon" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="kicker rv">The quiet hours</div>
+    <h1 class="kin" id="heroKin">You already know why you want to stop. <span class="soft">This is how you actually do it.</span></h1>
+    <p class="lede rv" data-d="2">
+      A real recovery program for porn, alcohol, cannabis, vaping, gambling, and caffeine —
+      built on what your body actually does in the first ninety days, with a coach that
+      answers at 2am and a plan that survives relapse.
+    </p>
+    <div class="cta-row rv" data-d="3">
+      <a class="btn btn-dawn" href="https://apps.apple.com/us/app/id6759509007">Start day one</a>
+      <a class="btn btn-ghost" href="#change">See what changes</a>
+    </div>
+    <p class="whisper rv" data-d="3">Free to start · iOS · Your data stays yours</p>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<!-- ════════ THE SCRUBBER ════════ -->
+<section id="change" class="sec-line">
+  <div class="wrap">
+    <div class="kicker rv">What actually changes</div>
+    <h2 class="rv" data-d="1">Drag through your first ninety days.</h2>
+    <p class="lede rv" data-d="2" style="margin-top:14px;margin-bottom:40px">
+      Not motivation — physiology. Pick what you're quitting and scrub the timeline.
+      Every milestone below is what your body is doing on that day.
+    </p>
+    <div class="scrub-stage rv" data-d="2" id="scrubStage" aria-label="Ninety day recovery timeline">
+      <div class="scrub-glow" aria-hidden="true"></div>
+      <div class="dep-tabs" role="tablist" aria-label="Choose a dependency" id="depTabs"></div>
+      <div class="scrub-day">
+        <span class="num" id="dayNum">30</span>
+        <span class="unit" id="dayUnit">days porn-free</span>
+      </div>
+      <div class="scrub-copy" id="scrubCopy">
+        <div class="sub" id="scrubSub"></div>
+        <p class="body" id="scrubBody"></p>
+      </div>
+      <div class="scrub-track">
+        <input type="range" id="dayRange" min="1" max="90" value="30" aria-label="Day of recovery, 1 through 90">
+        <div class="scrub-marks"><span>Day 1</span><span>Day 30</span><span>Day 60</span><span>Day 90</span></div>
+      </div>
+      <p class="scrub-hint">Drag anywhere on the timeline · arrow keys work too</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ APP WALKTHROUGH ════════ -->
+<section class="sec-line" id="app">
+  <div class="wrap">
+    <div class="kicker rv">The program, shown working</div>
+    <h2 class="rv" data-d="1">A real program, not a streak counter.</h2>
+    <p class="lede rv" data-d="2" style="margin-top:14px;margin-bottom:20px">
+      Every screen below is the shipping app. This is what working your recovery
+      actually looks like, day by day.
+    </p>
+
+    <div class="walk">
+      <div>
+        <div class="walk-step" data-shot="01-today-dashboard">
+          <div class="n">01 — Today</div>
+          <h3>Your day, already planned.</h3>
+          <p>One screen holds the day: your streak, the next lesson, the check-in,
+             and what to do when a craving lands. No dashboard maze — recovery is
+             hard enough.</p>
+          <div class="m-plate plate"><img src="assets/shots/01-today-dashboard.webp" alt="ThriveRecovery Today screen with streak, daily plan, and check-in" loading="lazy" width="1400" height="1867"></div>
+        </div>
+        <div class="walk-step" data-shot="02-ai-coach-chat">
+          <div class="n">02 — The Coach</div>
+          <h3>Someone answers at 2am.</h3>
+          <p>The hardest moments don't schedule themselves. The coach knows your
+             program, your dependency, and your history — and it never sleeps,
+             judges, or gets tired of you.</p>
+          <div class="m-plate plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="AI recovery coach chat conversation" loading="lazy" width="1400" height="1867"></div>
+        </div>
+        <div class="walk-step" data-shot="03-learn-lessons">
+          <div class="n">03 — Learn</div>
+          <h3>Understand the machine you live in.</h3>
+          <p>Short daily lessons on what your brain is doing — dopamine, triggers,
+             the actual mechanics of craving. You can't out-discipline a system
+             you don't understand.</p>
+          <div class="m-plate plate"><img src="assets/shots/03-learn-lessons.webp" alt="Recovery lessons library" loading="lazy" width="1400" height="1867"></div>
+        </div>
+        <div class="walk-step" data-shot="04-progress-stats">
+          <div class="n">04 — Progress</div>
+          <h3>See how far you've come.</h3>
+          <p>Days, money saved, urges survived, patterns spotted. On the bad days —
+             and there will be bad days — this screen is the argument for staying.</p>
+          <div class="m-plate plate"><img src="assets/shots/04-progress-stats.webp" alt="Progress and statistics screen" loading="lazy" width="1400" height="1867"></div>
+        </div>
+        <div class="walk-step" data-shot="05-recovery-plan">
+          <div class="n">05 — The Plan</div>
+          <h3>A roadmap that survives relapse.</h3>
+          <p>Relapse is data, not failure. Log it, look at what preceded it, and the
+             plan continues from where you are — never back to zero, never shame.</p>
+          <div class="m-plate plate"><img src="assets/shots/05-recovery-plan.webp" alt="Personal recovery plan roadmap" loading="lazy" width="1400" height="1867"></div>
+        </div>
+      </div>
+      <div class="walk-plate-col">
+        <div class="walk-sticky">
+          <div class="walk-stage" id="walkStage">
+            <div class="walk-slide on"><div class="plate"><img src="assets/shots/01-today-dashboard.webp" alt="" width="1400" height="1867" fetchpriority="high"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/03-learn-lessons.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/04-progress-stats.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/05-recovery-plan.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SIX ADDICTIONS ════════ -->
+<section class="sec-line">
+  <div class="wrap">
+    <div class="kicker rv">One plan, six fronts</div>
+    <h2 class="rv" data-d="1">Six addictions. One plan.</h2>
+    <p class="lede rv" data-d="2" style="margin-top:14px">
+      Real life doesn't arrive as one tidy addiction. The drinking and the scrolling
+      and the spending show up together and relapse together — so the program runs
+      them side by side, in one timeline, where the pattern is visible.
+    </p>
+    <div class="six-grid rv" data-d="2">
+      <div class="six-card"><span class="g">🌙</span><b>Porn</b><span>Dopamine reset, day by day</span></div>
+      <div class="six-card"><span class="g">🌅</span><b>Alcohol</b><span>From detox to clarity</span></div>
+      <div class="six-card"><span class="g">🌿</span><b>Cannabis</b><span>THC clearing, sleep returning</span></div>
+      <div class="six-card"><span class="g">💨</span><b>Vaping &amp; Nicotine</b><span>Heart rate normalizing in days</span></div>
+      <div class="six-card"><span class="g">🎲</span><b>Gambling</b><span>New habits over old odds</span></div>
+      <div class="six-card"><span class="g">☕</span><b>Caffeine</b><span>Real rest, real energy</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ THE HONEST SECTION ════════ -->
+<section class="sec-line">
+  <div class="wrap">
+    <div class="honest">
+      <div class="kicker rv">The honest version</div>
+      <h2 class="rv" data-d="1">Thrive isn't for everyone.</h2>
+      <p class="rv" data-d="2">We're not going to convince you. If you're not ready to stop,
+         an app won't change that — and we'd rather you know that now than after a
+         subscription. <strong>What we will do is make the attempt survivable</strong>:
+         the science on the days it gets hard, a coach at the hours nobody else answers,
+         and a plan that treats relapse as information instead of verdict.</p>
+      <p class="pull rv" data-d="2">You bring the reason. The program brings the road.</p>
+      <p class="rv" data-d="3">If you're in crisis, the app is not the right tool — call or text 988
+         (Suicide &amp; Crisis Lifeline, US). For everything between crisis and cruising,
+         that's what we built this for.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section class="sec-line">
+  <div class="wrap">
+    <div class="kicker rv">Questions, answered plainly</div>
+    <h2 class="rv" data-d="1" style="margin-bottom:36px">Frequently asked questions</h2>
+    <div class="faq rv" data-d="2">
+      <details>
+        <summary>Is it free?</summary>
+        <p>Free to start — the daily program, check-ins, and progress tracking cost nothing.
+           The AI coach and the full lesson library are part of the paid tier. No ads, ever.</p>
+      </details>
+      <details>
+        <summary>What happens if I relapse?</summary>
+        <p>You log it, honestly. The app looks at what preceded it with you, adjusts the plan,
+           and continues from where you are. Your history isn't erased — it's the most useful
+           data you have.</p>
+      </details>
+      <details>
+        <summary>Can I work on more than one addiction at once?</summary>
+        <p>Yes — that's the point. Programs run side by side in one timeline, because
+           dependencies feed each other and quitting them in isolation is why one always
+           brings the other back.</p>
+      </details>
+      <details>
+        <summary>Is my data private?</summary>
+        <p>Your recovery data stays yours. It isn't sold, shared, or used for advertising.
+           You can export or delete everything, any time.</p>
+      </details>
+      <details>
+        <summary>Is this therapy?</summary>
+        <p>No. Thrive is a structured self-guided program with an AI coach — it works well
+           alongside therapy, meetings, or medical care, and it never replaces them where
+           they're needed.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FINAL: FULL DAWN ════════ -->
+<section class="final" id="start">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="kicker rv" style="justify-content:center">Day one is today</div>
+    <h2 class="rv" data-d="1">The quiet hours are easier with a plan.</h2>
+    <p class="lede rv" data-d="2">Ninety days from now is coming either way. Choose which version of it arrives.</p>
+    <div class="cta-row rv" data-d="3" style="justify-content:center">
+      <a class="store-badge" href="https://apps.apple.com/us/app/id6759509007" aria-label="Download ThriveRecovery on the App Store">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <span class="sb-t"><small>Download on the</small><b>App Store</b></span>
+      </a>
+    </div>
+    <p class="store-note rv" data-d="3">iOS · Free to start</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> ThriveRecovery · IGUARD, LLC</span>
+    <div class="cols">
+      <a href="https://apps.apple.com/us/app/id6759509007">App Store</a>
+      <a href="mailto:inbox@thriverecoveryapp.com">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+    <span>Not medical advice. In crisis? Call or text 988.</span>
+  </div>
+</footer>
+
+<script>
+/* ══════════ data: the real 90-day physiology, per dependency ══════════ */
+const MILESTONES={"gambling":[{"day":7,"title":"7 Days","subtitle":"New habits","body":"At 7 days gamble-free, your brain's reward system is recalibrating. The constant dopamine spikes from gambling are fading. You're sleeping better and the fog is lifting."},{"day":14,"title":"14 Days","subtitle":"Clarity returning","body":"At 14 days, cognitive distortions are weakening. You're starting to see odds realistically again. Financial stress is decreasing as you stop hemorrhaging money."},{"day":21,"title":"21 Days","subtitle":"Habits forming","body":"At 21 days, new neural pathways are strengthening. The urge to gamble is becoming less automatic. You've proven you can handle triggers without betting."},{"day":30,"title":"30 Days","subtitle":"Financial Anxiety Is Easing","body":"At 30 days gamble-free, your brain's reward system is recalibrating. Dopamine levels are normalizing \u2014 everyday pleasures feel more satisfying. Financial stress is reducing as you gain control. Sleep quality has improved without the anxiety of losses. Decision-making clarity is returning."},{"day":60,"title":"60 Days","subtitle":"Rebuilding trust","body":"At 60 days, relationships are mending. Your financial stability is noticeably improving. The mental bandwidth freed from gambling obsession is remarkable."},{"day":90,"title":"90 Days","subtitle":"True freedom","body":"At 90 days gamble-free, you've fundamentally rewired your response to triggers. Financial recovery is well underway. Your self-trust has been rebuilt."}],"porn":[{"day":7,"title":"7 Days","subtitle":"Dopamine Resetting","body":"At 7 days porn-free, your brain's dopamine receptors are beginning to upregulate. Withdrawal symptoms like restlessness and irritability are normal \u2014 they're signs of healing. Focus is starting to return."},{"day":14,"title":"14 Days","subtitle":"Clarity Emerging","body":"At 14 days, the mental fog is lifting. Your prefrontal cortex is regaining control over impulse responses. Emotional regulation is improving and you may notice more genuine connections with people around you."},{"day":30,"title":"30 Days","subtitle":"Neural Pathways Shifting","body":"At 30 days porn-free, significant neural pathway changes are occurring. Your brain is forming new reward circuits. Confidence and self-esteem are rebuilding. Motivation for real-life goals is increasing."},{"day":60,"title":"60 Days","subtitle":"New Baseline Forming","body":"At 60 days, your brain's reward system is establishing a healthier baseline. The compulsive urges have weakened substantially. Relationships feel more authentic and meaningful."},{"day":90,"title":"90 Days","subtitle":"Neural Pathways Rewired","body":"At 90 days, your brain has formed new neural pathways. The prefrontal cortex has strengthened its control over impulses. You are literally a different person."}],"cannabis":[{"day":3,"title":"3 Days","subtitle":"THC Clearing","body":"At 3 days cannabis-free, THC metabolites are beginning to clear. Sleep disruption and vivid dreams are normal as your endocannabinoid system recalibrates. Appetite changes are temporary."},{"day":7,"title":"7 Days","subtitle":"Appetite Normalizing","body":"At 7 days, your appetite and mood are starting to stabilize. The irritability is your brain adjusting to producing its own endocannabinoids again. REM sleep is returning."},{"day":14,"title":"14 Days","subtitle":"Mental Clarity Is Returning","body":"At 14 days cannabis-free, your cannabinoid receptors are beginning to normalize. REM sleep is rebounding \u2014 dreams may be vivid. Focus and short-term memory are noticeably improving. The mental fog is lifting."},{"day":30,"title":"30 Days","subtitle":"Lungs Recovering","body":"At 30 days clean, your lungs are healing and breathing capacity is increasing. Cognitive function has improved significantly. Emotional responses are more balanced."},{"day":60,"title":"60 Days","subtitle":"Full Clarity","body":"At 60 days, THC is fully cleared from your body. Sleep patterns have normalized. Mental clarity and motivation are at their strongest since quitting."},{"day":90,"title":"90 Days","subtitle":"Habit Loop Broken","body":"At 90 days cannabis-free, you've broken the habit loop. Your brain's reward system has recalibrated. New habits are solidified and cravings are situational now."}],"vaping":[{"day":1,"title":"24 Hours","subtitle":"Heart Rate Normalizing","body":"Within 24 hours of quitting, your heart rate and blood pressure begin dropping to normal levels. Carbon monoxide levels in your blood are decreasing."},{"day":3,"title":"3 Days","subtitle":"Nicotine Cleared","body":"At 3 days nicotine-free, nicotine is fully cleared from your body. Peak irritability, headaches, and intense cravings are normal \u2014 your body is clearing nicotine."},{"day":7,"title":"7 Days","subtitle":"Your Lungs Are Starting to Heal","body":"At 7 days nicotine-free, your bronchial tubes are relaxing. Lung capacity is increasing. Carbon monoxide levels have returned to normal. Circulation is improving \u2014 you may notice warmer hands and feet. Nicotine is fully cleared from your body."},{"day":14,"title":"14 Days","subtitle":"Circulation Improving","body":"At 2 weeks, most physical symptoms are fading. Emotional regulation is returning. Cravings reduce in frequency. Focus is improving. Sleep is normalizing."},{"day":30,"title":"30 Days","subtitle":"Lung Cilia Regenerating","body":"At 30 days, lung cilia are regenerating. Exercise feels easier. Cravings are situational now. Your sense of taste and smell have fully returned."},{"day":90,"title":"90 Days","subtitle":"Breathing Fully Improved","body":"At 3 months, lung function has significantly improved. Energy levels are stable. New habits are solidified. The risk of relapse drops dramatically."}],"caffeine":[{"day":3,"title":"3 Days","subtitle":"Withdrawal Peak Survived","body":"At 3 days caffeine-free, you've survived the peak withdrawal. Headaches are beginning to subside. Your body is starting to produce its own natural energy."},{"day":7,"title":"7 Days","subtitle":"Headaches Gone, Sleep Improving","body":"At 7 days, withdrawal headaches have resolved. Sleep quality is noticeably improving. Your adenosine receptors are beginning to normalize."},{"day":14,"title":"14 Days","subtitle":"Natural Energy Restored","body":"At 14 days caffeine-free, your body has fully recalibrated. Your adenosine receptors have normalized \u2014 you feel naturally alert in the morning without any substance. Sleep quality has dramatically improved. Afternoon energy is steady without crashes. Anxiety levels have decreased. Blood pressure is normalizing. You're saving ~$150/month on coffee and energy drinks. Most importantly this is YOUR energy, not borrowed energy."},{"day":30,"title":"30 Days","subtitle":"Morning Alertness Returning","body":"At 30 days, you wake up naturally alert. Energy levels are consistent throughout the day. Anxiety has decreased. Your adrenal system has fully recovered."},{"day":90,"title":"90 Days","subtitle":"Complete Reset","body":"At 90 days caffeine-free, your body has fully recalibrated. Sleep is deep and restorative. Energy is natural and sustained. You've proven caffeine was a crutch, not a need."}],"alcohol":[{"day":3,"title":"3 Days","subtitle":"Detox Completing","body":"At 3 days sober, the acute detox phase is ending. Your liver is already beginning to repair itself."},{"day":7,"title":"7 Days","subtitle":"Liver Healing Begins","body":"At 7 days, your liver is actively repairing. Sleep patterns are starting to normalize. Hydration levels are improving."},{"day":14,"title":"14 Days","subtitle":"Sleep Improving","body":"At 14 days sober, sleep quality has significantly improved. Your stomach lining is healing. Mental clarity is returning."},{"day":30,"title":"30 Days","subtitle":"Body Healing","body":"At 30 days, liver fat is reducing. Blood pressure is normalizing. Skin appearance has improved. Weight may be stabilizing."},{"day":60,"title":"60 Days","subtitle":"Brain Chemistry Rebalancing","body":"At 60 days, your brain chemistry is rebalancing. Emotional regulation has improved. Relationships are mending."},{"day":90,"title":"90 Days","subtitle":"True Recovery","body":"At 90 days sober, your brain chemistry has significantly rebalanced. Liver function has markedly improved. Your overall health has transformed."}]};
+const DEPS = [
+  { key:'porn',     label:'Porn',              unit:'days porn-free' },
+  { key:'alcohol',  label:'Alcohol',           unit:'days alcohol-free' },
+  { key:'cannabis', label:'Cannabis',          unit:'days cannabis-free' },
+  { key:'vaping',   label:'Vaping & Nicotine', unit:'days nicotine-free' },
+  { key:'gambling', label:'Gambling',          unit:'days bet-free' },
+  { key:'caffeine', label:'Caffeine',          unit:'days caffeine-free' },
+];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ══════════ reveals ══════════ */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{rootMargin:'0px 0px -10% 0px'});
+document.querySelectorAll('.rv,.kicker,.kin').forEach(el=>io.observe(el));
+
+/* hero words */
+(function(){
+  const h = document.getElementById('heroKin');
+  const walk = node => {
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok.trim()){ frag.appendChild(document.createTextNode(tok)); return; }
+          const w=document.createElement('span'); w.className='w';
+          const i=document.createElement('span'); i.textContent=tok;
+          w.appendChild(i); frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1) walk(n);
+    });
+  };
+  walk(h);
+  h.querySelectorAll('.w>span').forEach((s,i)=>s.style.transitionDelay=(i*45)+'ms');
+  setTimeout(()=>h.classList.add('in'), 80);
+})();
+
+/* ══════════ the rising dawn ══════════ */
+const dawn = document.getElementById('dawn');
+function paintDawn(){
+  const max = document.body.scrollHeight - innerHeight;
+  const p = max>0 ? scrollY/max : 0;
+  dawn.style.setProperty('--rise', (p*70)+'%');
+  dawn.style.setProperty('--risen', p.toFixed(3));
+}
+addEventListener('scroll', paintDawn, {passive:true});
+paintDawn();
+
+/* nav hide on scroll down */
+const nav=document.getElementById('nav'); let lastY=0;
+addEventListener('scroll', ()=>{
+  const y=scrollY;
+  nav.classList.toggle('hid', y>160 && y>lastY);
+  lastY=y;
+},{passive:true});
+
+/* ══════════ THE SCRUBBER ══════════ */
+(function(){
+  const tabs=document.getElementById('depTabs');
+  const range=document.getElementById('dayRange');
+  const num=document.getElementById('dayNum');
+  const unit=document.getElementById('dayUnit');
+  const sub=document.getElementById('scrubSub');
+  const body=document.getElementById('scrubBody');
+  const copy=document.getElementById('scrubCopy');
+  const stage=document.getElementById('scrubStage');
+  let dep='porn', lastMilestone=null;
+
+  DEPS.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.role='tab'; b.textContent=d.label;
+    b.setAttribute('aria-selected', d.key===dep);
+    b.addEventListener('click',()=>{
+      dep=d.key; lastMilestone=null;
+      tabs.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected','false'));
+      b.setAttribute('aria-selected','true');
+      render(+range.value, true);
+    });
+    tabs.appendChild(b);
+  });
+
+  function milestoneFor(day){
+    const list=MILESTONES[dep]||[];
+    let m=list[0];
+    for(const x of list){ if(x.day<=day) m=x; else break; }
+    return m;
+  }
+  function render(day, force){
+    num.textContent=day;
+    unit.textContent=DEPS.find(d=>d.key===dep).unit;
+    stage.style.setProperty('--p',(day/90).toFixed(3));
+    const m=milestoneFor(day);
+    if(!m) return;
+    const key=dep+':'+m.day;
+    if(key===lastMilestone && !force) return;
+    lastMilestone=key;
+    if(RM){ sub.textContent='Day '+m.day+' — '+m.subtitle; body.textContent=m.body; return; }
+    copy.classList.add('swap');
+    setTimeout(()=>{
+      sub.textContent='Day '+m.day+' — '+m.subtitle;
+      body.textContent=m.body;
+      copy.classList.remove('swap');
+    },180);
+  }
+  range.addEventListener('input',()=>render(+range.value));
+
+  /* drag anywhere on the stage */
+  let dragging=false;
+  const fromX=x=>{
+    const r=range.getBoundingClientRect();
+    const p=Math.min(1,Math.max(0,(x-r.left)/r.width));
+    return Math.max(1,Math.round(p*90));
+  };
+  stage.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button')) return;
+    dragging=true; stage.classList.add('dragging');
+    range.value=fromX(e.clientX); render(+range.value);
+  });
+  addEventListener('pointermove',e=>{
+    if(!dragging) return;
+    range.value=fromX(e.clientX); render(+range.value);
+  });
+  addEventListener('pointerup',()=>{ dragging=false; stage.classList.remove('dragging'); });
+
+  render(30, true);
+})();
+
+/* ══════════ app walkthrough ══════════ */
+(function(){
+  const steps=[...document.querySelectorAll('.walk-step')];
+  const slides=[...document.querySelectorAll('.walk-slide')];
+  if(!steps.length) return;
+  const tick=()=>{
+    const mid=innerHeight/2;
+    let idx=0;
+    steps.forEach((el,i)=>{ if(el.getBoundingClientRect().top<=mid) idx=i; });
+    steps.forEach((el,i)=>el.classList.toggle('on',i===idx));
+    slides.forEach((el,i)=>el.classList.toggle('on',i===idx));
+  };
+  tick();
+  addEventListener('scroll',tick,{passive:true});
+  addEventListener('resize',tick);
+})();
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"ThriveRecovery: Become",
+"operatingSystem":"iOS","applicationCategory":"HealthApplication",
+"url":"https://thriverecoveryapp.com","installUrl":"https://apps.apple.com/us/app/id6759509007",
+"description":"A recovery program for porn, alcohol, cannabis, vaping, gambling, and caffeine: day-by-day recovery science, an AI coach available 24/7, and a plan that survives relapse.",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</body>
+</html>
