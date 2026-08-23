@@ -193,7 +193,7 @@ section{padding:clamp(72px,10vw,130px) 0;position:relative}
 
 /* ── app walkthrough: sticky plate ──────────────────────────────── */
 .walk{display:grid;gap:clamp(28px,4vw,64px)}
-@media(min-width:980px){.walk{grid-template-columns:1fr 1fr;align-items:start}}
+@media(min-width:980px){.walk{grid-template-columns:1fr 1fr;align-items:stretch}}
 .walk-plate-col{display:none}
 @media(min-width:980px){
   .walk-plate-col{display:block}
@@ -203,13 +203,15 @@ section{padding:clamp(72px,10vw,130px) 0;position:relative}
 .walk-slide{position:absolute;inset:0;opacity:0;transform:scale(.97);transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease)}
 .walk-slide.on{opacity:1;transform:none;position:relative}
 .plate{
-  border-radius:26px;overflow:hidden;border:1px solid var(--line);
-  box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(232,180,90,.06);
+  border-radius:30px;overflow:hidden;padding:10px;background:#16110c;
+  border:1px solid var(--line);
+  box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(232,180,90,.08), 0 0 0 1px rgba(232,180,90,.06);
   position:relative;
 }
+.plate img{display:block;width:100%;height:auto;border-radius:20px}
 .plate::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg,transparent 40%,rgba(244,223,180,.07) 50%,transparent 60%);
+  background:linear-gradient(115deg,transparent 40%,rgba(244,223,180,.06) 50%,transparent 60%);
 }
 .walk-step{min-height:58vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0;opacity:.4;transition:opacity var(--t-med) var(--ease)}
 .walk-step.on{opacity:1}
@@ -362,7 +364,7 @@ footer .cols{display:flex;gap:26px;flex-wrap:wrap}
           <p>One screen holds the day: your streak, the next lesson, the check-in,
              and what to do when a craving lands. No dashboard maze — recovery is
              hard enough.</p>
-          <div class="m-plate plate"><img src="assets/shots/01-today-dashboard.webp" alt="ThriveRecovery Today screen with streak, daily plan, and check-in" loading="lazy" width="1400" height="1867"></div>
+          <div class="m-plate plate"><img src="assets/shots/01-today-dashboard.webp" alt="ThriveRecovery Today screen with streak, daily plan, and check-in" loading="lazy" width="812" height="1053"></div>
         </div>
         <div class="walk-step" data-shot="02-ai-coach-chat">
           <div class="n">02 — The Coach</div>
@@ -370,7 +372,7 @@ footer .cols{display:flex;gap:26px;flex-wrap:wrap}
           <p>The hardest moments don't schedule themselves. The coach knows your
              program, your dependency, and your history — and it never sleeps,
              judges, or gets tired of you.</p>
-          <div class="m-plate plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="AI recovery coach chat conversation" loading="lazy" width="1400" height="1867"></div>
+          <div class="m-plate plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="AI recovery coach chat conversation" loading="lazy" width="812" height="1053"></div>
         </div>
         <div class="walk-step" data-shot="03-learn-lessons">
           <div class="n">03 — Learn</div>
@@ -378,31 +380,31 @@ footer .cols{display:flex;gap:26px;flex-wrap:wrap}
           <p>Short daily lessons on what your brain is doing — dopamine, triggers,
              the actual mechanics of craving. You can't out-discipline a system
              you don't understand.</p>
-          <div class="m-plate plate"><img src="assets/shots/03-learn-lessons.webp" alt="Recovery lessons library" loading="lazy" width="1400" height="1867"></div>
+          <div class="m-plate plate"><img src="assets/shots/03-learn-lessons.webp" alt="Recovery lessons library" loading="lazy" width="812" height="1053"></div>
         </div>
         <div class="walk-step" data-shot="04-progress-stats">
           <div class="n">04 — Progress</div>
           <h3>See how far you've come.</h3>
           <p>Days, money saved, urges survived, patterns spotted. On the bad days —
              and there will be bad days — this screen is the argument for staying.</p>
-          <div class="m-plate plate"><img src="assets/shots/04-progress-stats.webp" alt="Progress and statistics screen" loading="lazy" width="1400" height="1867"></div>
+          <div class="m-plate plate"><img src="assets/shots/04-progress-stats.webp" alt="Progress and statistics screen" loading="lazy" width="812" height="1053"></div>
         </div>
         <div class="walk-step" data-shot="05-recovery-plan">
           <div class="n">05 — The Plan</div>
           <h3>A roadmap that survives relapse.</h3>
           <p>Relapse is data, not failure. Log it, look at what preceded it, and the
              plan continues from where you are — never back to zero, never shame.</p>
-          <div class="m-plate plate"><img src="assets/shots/05-recovery-plan.webp" alt="Personal recovery plan roadmap" loading="lazy" width="1400" height="1867"></div>
+          <div class="m-plate plate"><img src="assets/shots/05-recovery-plan.webp" alt="Personal recovery plan roadmap" loading="lazy" width="812" height="1053"></div>
         </div>
       </div>
       <div class="walk-plate-col">
         <div class="walk-sticky">
           <div class="walk-stage" id="walkStage">
-            <div class="walk-slide on"><div class="plate"><img src="assets/shots/01-today-dashboard.webp" alt="" width="1400" height="1867" fetchpriority="high"></div></div>
-            <div class="walk-slide"><div class="plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
-            <div class="walk-slide"><div class="plate"><img src="assets/shots/03-learn-lessons.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
-            <div class="walk-slide"><div class="plate"><img src="assets/shots/04-progress-stats.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
-            <div class="walk-slide"><div class="plate"><img src="assets/shots/05-recovery-plan.webp" alt="" loading="lazy" width="1400" height="1867"></div></div>
+            <div class="walk-slide on"><div class="plate"><img src="assets/shots/01-today-dashboard.webp" alt="" width="812" height="1053" fetchpriority="high"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/02-ai-coach-chat.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/03-learn-lessons.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/04-progress-stats.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
+            <div class="walk-slide"><div class="plate"><img src="assets/shots/05-recovery-plan.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
           </div>
         </div>
       </div>
