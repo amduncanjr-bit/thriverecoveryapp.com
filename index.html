@@ -191,15 +191,39 @@ section{padding:clamp(72px,10vw,130px) 0;position:relative}
 .scrub-marks{display:flex;justify-content:space-between;color:var(--text-3);font-size:.75rem;margin-top:6px}
 .scrub-hint{color:var(--text-3);font-size:.8rem;margin-top:18px;text-align:center}
 
+/* ── the film: demo reel vitrine ────────────────────────────────── */
+.film{padding-top:0;margin-top:clamp(-60px,-4vw,-30px)}
+.film-vitrine{
+  position:relative;max-width:920px;margin:0 auto;
+  border-radius:26px;padding:10px;background:#16110c;
+  border:1px solid var(--line);
+  box-shadow:0 40px 110px rgba(0,0,0,.6), 0 0 80px rgba(232,180,90,.09), 0 0 0 1px rgba(232,180,90,.06);
+}
+.film-vitrine video{display:block;width:100%;height:auto;border-radius:17px;background:#0f2b22}
+.film-vitrine::after{
+  content:'';position:absolute;inset:10px;pointer-events:none;border-radius:17px;
+  box-shadow:inset 0 0 60px rgba(13,11,9,.35);
+}
+.film-sound{
+  position:absolute;right:26px;bottom:26px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(13,11,9,.72);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  font-size:.8rem;color:var(--text-2);
+  transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease);
+}
+.film-sound:hover{color:var(--dawn-pale);border-color:var(--dawn-gold)}
+.film-cap{text-align:center;color:var(--text-3);font-size:.83rem;margin-top:20px}
+
 /* ── app walkthrough: sticky plate ──────────────────────────────── */
 .walk{display:grid;gap:clamp(28px,4vw,64px)}
 @media(min-width:980px){.walk{grid-template-columns:1fr 1fr;align-items:stretch}}
 .walk-plate-col{display:none}
 @media(min-width:980px){
   .walk-plate-col{display:block}
-  .walk-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center}
+  .walk-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
 }
-.walk-stage{position:relative;width:min(420px,100%)}
+.walk-stage{position:relative;width:min(370px,100%)}
 .walk-slide{position:absolute;inset:0;opacity:0;transform:scale(.97);transition:opacity var(--t-med) var(--ease),transform var(--t-med) var(--ease)}
 .walk-slide.on{opacity:1;transform:none;position:relative}
 .plate{
@@ -208,13 +232,26 @@ section{padding:clamp(72px,10vw,130px) 0;position:relative}
   box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(232,180,90,.08), 0 0 0 1px rgba(232,180,90,.06);
   position:relative;
 }
-.plate img{display:block;width:100%;height:auto;border-radius:20px}
+.plate img{display:block;width:100%;height:auto;border-radius:20px;filter:brightness(.93) saturate(.85) sepia(.06)}
+.plate::before{
+  content:'';position:absolute;inset:10px;z-index:1;pointer-events:none;border-radius:20px;
+  background:linear-gradient(180deg,rgba(46,28,12,.14),rgba(46,28,12,.05) 40%,rgba(46,28,12,.16));
+  mix-blend-mode:multiply;
+}
 .plate::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(115deg,transparent 40%,rgba(244,223,180,.06) 50%,transparent 60%);
 }
-.walk-step{min-height:58vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0;opacity:.4;transition:opacity var(--t-med) var(--ease)}
-.walk-step.on{opacity:1}
+.walk-rail{display:flex;gap:10px;align-items:center}
+.walk-rail span{
+  font-family:var(--serif);font-size:.8rem;color:var(--text-3);
+  padding:5px 11px;border:1px solid transparent;border-radius:999px;
+  transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease);
+}
+.walk-rail span.on{color:var(--dawn-gold);border-color:var(--line)}
+.walk-step{min-height:76vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0;opacity:.16;transition:opacity .6s var(--ease),transform .6s var(--ease);transform:translateY(6px)}
+.walk-step.on{opacity:1;transform:none}
+.walk-step:last-child{min-height:62vh}
 .walk-step .n{font-family:var(--serif);font-size:.95rem;color:var(--dawn-gold);margin-bottom:10px}
 .walk-step h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.35rem,2.2vw,1.8rem);margin-bottom:12px}
 .walk-step p{color:var(--text-2);max-width:46ch}
@@ -317,6 +354,22 @@ footer .cols{display:flex;gap:26px;flex-wrap:wrap}
   <div class="scroll-cue">Scroll</div>
 </header>
 
+<!-- ════════ THE FILM ════════ -->
+<section class="film" aria-label="ThriveRecovery in motion">
+  <div class="wrap">
+    <div class="film-vitrine rv">
+      <video id="filmVid" playsinline muted loop preload="metadata"
+             poster="assets/video/thrive-demo-poster.jpg"
+             src="assets/video/thrive-demo.mp4"></video>
+      <button class="film-sound" id="filmSound" aria-label="Turn sound on">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
+        <span>Sound</span>
+      </button>
+    </div>
+    <p class="film-cap rv" data-d="1">Seventy-five seconds inside the app — as it ships.</p>
+  </div>
+</section>
+
 <!-- ════════ THE SCRUBBER ════════ -->
 <section id="change" class="sec-line">
   <div class="wrap">
@@ -405,6 +458,9 @@ footer .cols{display:flex;gap:26px;flex-wrap:wrap}
             <div class="walk-slide"><div class="plate"><img src="assets/shots/03-learn-lessons.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
             <div class="walk-slide"><div class="plate"><img src="assets/shots/04-progress-stats.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
             <div class="walk-slide"><div class="plate"><img src="assets/shots/05-recovery-plan.webp" alt="" loading="lazy" width="812" height="1053"></div></div>
+          </div>
+          <div class="walk-rail" id="walkRail" aria-hidden="true">
+            <span class="on">01</span><span>02</span><span>03</span><span>04</span><span>05</span>
           </div>
         </div>
       </div>
@@ -657,16 +713,34 @@ addEventListener('scroll', ()=>{
   const steps=[...document.querySelectorAll('.walk-step')];
   const slides=[...document.querySelectorAll('.walk-slide')];
   if(!steps.length) return;
+  const rail=[...document.querySelectorAll('#walkRail span')];
   const tick=()=>{
     const mid=innerHeight/2;
     let idx=0;
     steps.forEach((el,i)=>{ if(el.getBoundingClientRect().top<=mid) idx=i; });
     steps.forEach((el,i)=>el.classList.toggle('on',i===idx));
     slides.forEach((el,i)=>el.classList.toggle('on',i===idx));
+    rail.forEach((el,i)=>el.classList.toggle('on',i===idx));
   };
   tick();
   addEventListener('scroll',tick,{passive:true});
   addEventListener('resize',tick);
+})();
+
+/* ══════════ the film ══════════ */
+(function(){
+  const v=document.getElementById('filmVid');
+  const btn=document.getElementById('filmSound');
+  if(!v) return;
+  new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ v.play().catch(()=>{}); } else { v.pause(); }
+  }),{threshold:.35}).observe(v);
+  btn.addEventListener('click',()=>{
+    v.muted=!v.muted;
+    btn.querySelector('span').textContent = v.muted ? 'Sound' : 'Mute';
+    btn.setAttribute('aria-label', v.muted ? 'Turn sound on' : 'Turn sound off');
+    if(!v.muted) v.play().catch(()=>{});
+  });
 })();
 
 document.getElementById('yr').textContent=new Date().getFullYear();
