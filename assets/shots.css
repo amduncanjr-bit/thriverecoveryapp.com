@@ -1,0 +1,93 @@
+/* Companion styles for the "Six screens, nothing staged." section.
+   Only the rules the compiled Tailwind bundle does not already ship.
+   Everything else on that section reuses classes that are already in
+   assets/index-DQLBkGQ6.css, and every colour here comes from the
+   existing design tokens so light and dark themes both follow. */
+
+.shots-rail {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0 0 0.75rem;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  /* proximity, not mandatory: a small keyboard scroll is never yanked back */
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.shots-rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* the rail is a scrollable region, so it takes focus from the keyboard */
+.shots-rail:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 8px;
+  border-radius: 1.25rem;
+}
+
+.shots-item {
+  flex: 0 0 78%;
+  min-width: 0;
+  max-width: 19rem;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.shots-plate {
+  box-shadow: 0 14px 34px -22px hsl(var(--night-sky) / 0.65);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shots-item:hover .shots-plate {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -22px hsl(var(--night-sky) / 0.7);
+}
+
+.shots-cap {
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .shots-rail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.75rem 1.75rem;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+  }
+
+  .shots-item {
+    flex: none;
+    max-width: none;
+  }
+
+  /* keep the device plate the same width as the demo-video vitrine */
+  .shots-plate {
+    max-width: 18.75rem;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shots-rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shots-rail {
+    scroll-behavior: auto;
+  }
+
+  .shots-plate,
+  .shots-item:hover .shots-plate {
+    transition: none;
+    transform: none;
+  }
+}
