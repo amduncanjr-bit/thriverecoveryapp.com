@@ -1,6 +1,12 @@
 {
  "articles": [
   {
+   "slug": "triggers-are-data",
+   "title": "Triggers are data: turning your worst moments into a map",
+   "dek": "The thing that almost broke you is also telling you exactly where to look next.",
+   "date": "October 12, 2026"
+  },
+  {
    "slug": "telling-one-person-the-truth",
    "title": "Accountability without shame: telling one person the truth",
    "dek": "One honest conversation with one person can hold more weight than any app, plan, or promise you make to yourself alone.",
