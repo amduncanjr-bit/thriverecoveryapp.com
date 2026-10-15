@@ -1,6 +1,12 @@
 {
  "articles": [
   {
+   "slug": "patterns-not-streaks",
+   "title": "The number on the counter is not the point",
+   "dek": "What actually predicts long-term recovery is not how long your streak lasted but what your pattern looks like across weeks and months.",
+   "date": "October 15, 2026"
+  },
+  {
    "slug": "triggers-are-data",
    "title": "Triggers are data: turning your worst moments into a map",
    "dek": "The thing that almost broke you is also telling you exactly where to look next.",
